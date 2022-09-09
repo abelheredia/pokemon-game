@@ -4,12 +4,12 @@
     <h1>¿Quién es este pokémon?</h1>
     <PokemonPicture :pokemonId="pokemon.id" :showPokemon="showPokemon" />
     <PokemonOptions :pokemons="pokemons" @selection="checkAnswer($event)" />
-
     <div v-if="showAnswer">
       <h2>{{ message }}</h2>
       <button @click="reset">Nuevo Juego</button>
     </div>
   </div>
+  <h2 class="puntaje">Puntaje: {{ puntaje }}</h2>
 </template>
 
 <script>
@@ -29,6 +29,7 @@ export default {
       showPokemon: false,
       showAnswer: false,
       message: "",
+      puntaje: 0,
     };
   },
   methods: {
@@ -43,11 +44,19 @@ export default {
 
       if (pokemonId === this.pokemon.id) {
         this.message = `Correcto! ${this.pokemon.name} es el pokémon`;
+        this.puntaje++;
       } else {
         this.message = `Incorrecto! ${this.pokemon.name} es el pokémon`;
       }
     },
     reset() {
+      this.showPokemon = false;
+      this.showAnswer = false;
+      this.pokemons = [];
+      this.pokemon = null;
+      this.mixPokemonArray();
+    },
+    reset2() {
       this.showPokemon = false;
       this.showAnswer = false;
       this.pokemons = [];
@@ -60,3 +69,16 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.intentos {
+  position: absolute;
+  top: 0;
+  right: 10rem;
+}
+.puntaje {
+  position: absolute;
+  top: 3.5rem;
+  right: 10rem;
+}
+</style>
